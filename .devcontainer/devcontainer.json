@@ -1,0 +1,27 @@
+{
+	"name": "devpod with docker",
+	"build": {
+		"dockerfile": "dockerfile"
+	},
+	"features": {
+		// add here your favorite utilities
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers-contrib/features/vercel-cli:1": {},
+		"ghcr.io/shyim/devcontainers-features/bun:0": {}
+	},
+	"runArgs": [
+    "--init",
+		"--privileged"
+  ],
+	"postCreateCommand": "sh .devcontainer/postinstall.sh",
+	"remoteUser": "root",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Prisma.prisma"
+			]
+		}
+	}
+}

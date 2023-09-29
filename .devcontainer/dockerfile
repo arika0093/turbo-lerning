@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/devcontainers/base:bullseye
+# install docker 
+RUN curl -fsSL https://get.docker.com | sh
+# https://github.com/microsoft/WSL/issues/6044
+RUN update-alternatives --set iptables /usr/sbin/iptables-legacy && \
+    update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+# make symbolic link for `docker-compose`
+RUN ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+# execute docker
+CMD ["service", "docker", "start"]
