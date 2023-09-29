@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "graphql-codegen": "workspace:*",
     "next": "^13.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "urql": "^4.0.5"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",

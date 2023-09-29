@@ -1,0 +1,1061 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `User`."""
+  users(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): UsersConnection
+
+  """Reads and enables pagination through a set of `_PrismaMigration`."""
+  _prismaMigrations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `_PrismaMigration`."""
+    orderBy: [_PrismaMigrationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: _PrismaMigrationCondition
+  ): _PrismaMigrationsConnection
+  user(id: String!): User
+  _prismaMigration(id: String!): _PrismaMigration
+
+  """Reads a single `User` using its globally unique `ID`."""
+  userByNodeId(
+    """The globally unique `ID` to be used in selecting a single `User`."""
+    nodeId: ID!
+  ): User
+
+  """Reads a single `_PrismaMigration` using its globally unique `ID`."""
+  _prismaMigrationByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `_PrismaMigration`.
+    """
+    nodeId: ID!
+  ): _PrismaMigration
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `User` values."""
+type UsersConnection {
+  """A list of `User` objects."""
+  nodes: [User!]!
+
+  """
+  A list of edges which contains the `User` and cursor to aid in pagination.
+  """
+  edges: [UsersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: UserAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """The method to use when grouping `User` for these aggregates."""
+    groupBy: [UserGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: UserHavingInput
+  ): [UserAggregates!]
+}
+
+type User implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: String!
+  name: String
+  email: String
+  emailVerified: Datetime
+}
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""A `User` edge in the connection."""
+type UsersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User!
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+type UserAggregates {
+  keys: [String!]
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: UserDistinctCountAggregates
+}
+
+type UserDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of name across the matching connection"""
+  name: BigInt
+
+  """Distinct count of email across the matching connection"""
+  email: BigInt
+
+  """Distinct count of emailVerified across the matching connection"""
+  emailVerified: BigInt
+}
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+"""Grouping methods for `User` for usage during aggregation."""
+enum UserGroupBy {
+  NAME
+  EMAIL_VERIFIED
+  EMAIL_VERIFIED_TRUNCATED_TO_HOUR
+  EMAIL_VERIFIED_TRUNCATED_TO_DAY
+}
+
+"""Conditions for `User` aggregates."""
+input UserHavingInput {
+  AND: [UserHavingInput!]
+  OR: [UserHavingInput!]
+  sum: UserHavingSumInput
+  distinctCount: UserHavingDistinctCountInput
+  min: UserHavingMinInput
+  max: UserHavingMaxInput
+  average: UserHavingAverageInput
+  stddevSample: UserHavingStddevSampleInput
+  stddevPopulation: UserHavingStddevPopulationInput
+  varianceSample: UserHavingVarianceSampleInput
+  variancePopulation: UserHavingVariancePopulationInput
+}
+
+input UserHavingSumInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input HavingDatetimeFilter {
+  equalTo: Datetime
+  notEqualTo: Datetime
+  greaterThan: Datetime
+  greaterThanOrEqualTo: Datetime
+  lessThan: Datetime
+  lessThanOrEqualTo: Datetime
+}
+
+input UserHavingDistinctCountInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingMinInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingMaxInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingAverageInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingStddevSampleInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingStddevPopulationInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingVarianceSampleInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+input UserHavingVariancePopulationInput {
+  emailVerified: HavingDatetimeFilter
+}
+
+"""Methods to use when ordering `User`."""
+enum UsersOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  EMAIL_VERIFIED_ASC
+  EMAIL_VERIFIED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input UserCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `email` field."""
+  email: String
+
+  """Checks for equality with the object’s `emailVerified` field."""
+  emailVerified: Datetime
+}
+
+"""A connection to a list of `_PrismaMigration` values."""
+type _PrismaMigrationsConnection {
+  """A list of `_PrismaMigration` objects."""
+  nodes: [_PrismaMigration!]!
+
+  """
+  A list of edges which contains the `_PrismaMigration` and cursor to aid in pagination.
+  """
+  edges: [_PrismaMigrationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `_PrismaMigration` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: _PrismaMigrationAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `_PrismaMigration` for these aggregates.
+    """
+    groupBy: [_PrismaMigrationsGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: _PrismaMigrationsHavingInput
+  ): [_PrismaMigrationAggregates!]
+}
+
+type _PrismaMigration implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: String!
+  checksum: String!
+  finishedAt: Datetime
+  migrationName: String!
+  logs: String
+  rolledBackAt: Datetime
+  startedAt: Datetime!
+  appliedStepsCount: Int!
+}
+
+"""A `_PrismaMigration` edge in the connection."""
+type _PrismaMigrationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `_PrismaMigration` at the end of the edge."""
+  node: _PrismaMigration!
+}
+
+type _PrismaMigrationAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: _PrismaMigrationSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: _PrismaMigrationDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: _PrismaMigrationMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: _PrismaMigrationMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: _PrismaMigrationAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: _PrismaMigrationStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: _PrismaMigrationStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: _PrismaMigrationVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: _PrismaMigrationVariancePopulationAggregates
+}
+
+type _PrismaMigrationSumAggregates {
+  """Sum of appliedStepsCount across the matching connection"""
+  appliedStepsCount: BigInt!
+}
+
+type _PrismaMigrationDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of checksum across the matching connection"""
+  checksum: BigInt
+
+  """Distinct count of finishedAt across the matching connection"""
+  finishedAt: BigInt
+
+  """Distinct count of migrationName across the matching connection"""
+  migrationName: BigInt
+
+  """Distinct count of logs across the matching connection"""
+  logs: BigInt
+
+  """Distinct count of rolledBackAt across the matching connection"""
+  rolledBackAt: BigInt
+
+  """Distinct count of startedAt across the matching connection"""
+  startedAt: BigInt
+
+  """Distinct count of appliedStepsCount across the matching connection"""
+  appliedStepsCount: BigInt
+}
+
+type _PrismaMigrationMinAggregates {
+  """Minimum of appliedStepsCount across the matching connection"""
+  appliedStepsCount: Int
+}
+
+type _PrismaMigrationMaxAggregates {
+  """Maximum of appliedStepsCount across the matching connection"""
+  appliedStepsCount: Int
+}
+
+type _PrismaMigrationAverageAggregates {
+  """Mean average of appliedStepsCount across the matching connection"""
+  appliedStepsCount: BigFloat
+}
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+type _PrismaMigrationStddevSampleAggregates {
+  """
+  Sample standard deviation of appliedStepsCount across the matching connection
+  """
+  appliedStepsCount: BigFloat
+}
+
+type _PrismaMigrationStddevPopulationAggregates {
+  """
+  Population standard deviation of appliedStepsCount across the matching connection
+  """
+  appliedStepsCount: BigFloat
+}
+
+type _PrismaMigrationVarianceSampleAggregates {
+  """Sample variance of appliedStepsCount across the matching connection"""
+  appliedStepsCount: BigFloat
+}
+
+type _PrismaMigrationVariancePopulationAggregates {
+  """
+  Population variance of appliedStepsCount across the matching connection
+  """
+  appliedStepsCount: BigFloat
+}
+
+"""Grouping methods for `_PrismaMigration` for usage during aggregation."""
+enum _PrismaMigrationsGroupBy {
+  CHECKSUM
+  FINISHED_AT
+  FINISHED_AT_TRUNCATED_TO_HOUR
+  FINISHED_AT_TRUNCATED_TO_DAY
+  MIGRATION_NAME
+  LOGS
+  ROLLED_BACK_AT
+  ROLLED_BACK_AT_TRUNCATED_TO_HOUR
+  ROLLED_BACK_AT_TRUNCATED_TO_DAY
+  STARTED_AT
+  STARTED_AT_TRUNCATED_TO_HOUR
+  STARTED_AT_TRUNCATED_TO_DAY
+  APPLIED_STEPS_COUNT
+}
+
+"""Conditions for `_PrismaMigration` aggregates."""
+input _PrismaMigrationsHavingInput {
+  AND: [_PrismaMigrationsHavingInput!]
+  OR: [_PrismaMigrationsHavingInput!]
+  sum: _PrismaMigrationsHavingSumInput
+  distinctCount: _PrismaMigrationsHavingDistinctCountInput
+  min: _PrismaMigrationsHavingMinInput
+  max: _PrismaMigrationsHavingMaxInput
+  average: _PrismaMigrationsHavingAverageInput
+  stddevSample: _PrismaMigrationsHavingStddevSampleInput
+  stddevPopulation: _PrismaMigrationsHavingStddevPopulationInput
+  varianceSample: _PrismaMigrationsHavingVarianceSampleInput
+  variancePopulation: _PrismaMigrationsHavingVariancePopulationInput
+}
+
+input _PrismaMigrationsHavingSumInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input HavingIntFilter {
+  equalTo: Int
+  notEqualTo: Int
+  greaterThan: Int
+  greaterThanOrEqualTo: Int
+  lessThan: Int
+  lessThanOrEqualTo: Int
+}
+
+input _PrismaMigrationsHavingDistinctCountInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingMinInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingMaxInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingAverageInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingStddevSampleInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingStddevPopulationInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingVarianceSampleInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+input _PrismaMigrationsHavingVariancePopulationInput {
+  finishedAt: HavingDatetimeFilter
+  rolledBackAt: HavingDatetimeFilter
+  startedAt: HavingDatetimeFilter
+  appliedStepsCount: HavingIntFilter
+}
+
+"""Methods to use when ordering `_PrismaMigration`."""
+enum _PrismaMigrationsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CHECKSUM_ASC
+  CHECKSUM_DESC
+  FINISHED_AT_ASC
+  FINISHED_AT_DESC
+  MIGRATION_NAME_ASC
+  MIGRATION_NAME_DESC
+  LOGS_ASC
+  LOGS_DESC
+  ROLLED_BACK_AT_ASC
+  ROLLED_BACK_AT_DESC
+  STARTED_AT_ASC
+  STARTED_AT_DESC
+  APPLIED_STEPS_COUNT_ASC
+  APPLIED_STEPS_COUNT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `_PrismaMigration` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input _PrismaMigrationCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `checksum` field."""
+  checksum: String
+
+  """Checks for equality with the object’s `finishedAt` field."""
+  finishedAt: Datetime
+
+  """Checks for equality with the object’s `migrationName` field."""
+  migrationName: String
+
+  """Checks for equality with the object’s `logs` field."""
+  logs: String
+
+  """Checks for equality with the object’s `rolledBackAt` field."""
+  rolledBackAt: Datetime
+
+  """Checks for equality with the object’s `startedAt` field."""
+  startedAt: Datetime
+
+  """Checks for equality with the object’s `appliedStepsCount` field."""
+  appliedStepsCount: Int
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `User`."""
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload
+
+  """Creates a single `_PrismaMigration`."""
+  createPrismaMigration(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePrismaMigrationInput!
+  ): CreatePrismaMigrationPayload
+
+  """Updates a single `User` using its globally unique id and a patch."""
+  updateUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByNodeIdInput!
+  ): UpdateUserPayload
+
+  """Updates a single `User` using a unique key and a patch."""
+  updateUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInput!
+  ): UpdateUserPayload
+
+  """
+  Updates a single `_PrismaMigration` using its globally unique id and a patch.
+  """
+  updatePrismaMigrationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePrismaMigrationByNodeIdInput!
+  ): UpdatePrismaMigrationPayload
+
+  """Updates a single `_PrismaMigration` using a unique key and a patch."""
+  updatePrismaMigration(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePrismaMigrationInput!
+  ): UpdatePrismaMigrationPayload
+
+  """Deletes a single `User` using its globally unique id."""
+  deleteUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByNodeIdInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
+  deleteUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `_PrismaMigration` using its globally unique id."""
+  deletePrismaMigrationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePrismaMigrationByNodeIdInput!
+  ): DeletePrismaMigrationPayload
+
+  """Deletes a single `_PrismaMigration` using a unique key."""
+  deletePrismaMigration(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePrismaMigrationInput!
+  ): DeletePrismaMigrationPayload
+}
+
+"""The output of our create `User` mutation."""
+type CreateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was created by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the create `User` mutation."""
+input CreateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `User` to be created by this mutation."""
+  user: UserInput!
+}
+
+"""An input for mutations affecting `User`"""
+input UserInput {
+  id: String!
+  name: String
+  email: String
+  emailVerified: Datetime
+}
+
+"""The output of our create `_PrismaMigration` mutation."""
+type CreatePrismaMigrationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `_PrismaMigration` that was created by this mutation."""
+  _prismaMigration: _PrismaMigration
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `_PrismaMigration`. May be used by Relay 1."""
+  _prismaMigrationEdge(
+    """The method to use when ordering `_PrismaMigration`."""
+    orderBy: [_PrismaMigrationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): _PrismaMigrationsEdge
+}
+
+"""All input for the create `_PrismaMigration` mutation."""
+input CreatePrismaMigrationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `_PrismaMigration` to be created by this mutation."""
+  _prismaMigration: _PrismaMigrationInput!
+}
+
+"""An input for mutations affecting `_PrismaMigration`"""
+input _PrismaMigrationInput {
+  id: String!
+  checksum: String!
+  finishedAt: Datetime
+  migrationName: String!
+  logs: String
+  rolledBackAt: Datetime
+  startedAt: Datetime
+  appliedStepsCount: Int
+}
+
+"""The output of our update `User` mutation."""
+type UpdateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was updated by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the `updateUserByNodeId` mutation."""
+input UpdateUserByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  patch: UserPatch!
+}
+
+"""Represents an update to a `User`. Fields that are set will be updated."""
+input UserPatch {
+  id: String
+  name: String
+  email: String
+  emailVerified: Datetime
+}
+
+"""All input for the `updateUser` mutation."""
+input UpdateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  patch: UserPatch!
+  id: String!
+}
+
+"""The output of our update `_PrismaMigration` mutation."""
+type UpdatePrismaMigrationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `_PrismaMigration` that was updated by this mutation."""
+  _prismaMigration: _PrismaMigration
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `_PrismaMigration`. May be used by Relay 1."""
+  _prismaMigrationEdge(
+    """The method to use when ordering `_PrismaMigration`."""
+    orderBy: [_PrismaMigrationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): _PrismaMigrationsEdge
+}
+
+"""All input for the `updatePrismaMigrationByNodeId` mutation."""
+input UpdatePrismaMigrationByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `_PrismaMigration` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `_PrismaMigration` being updated.
+  """
+  patch: _PrismaMigrationPatch!
+}
+
+"""
+Represents an update to a `_PrismaMigration`. Fields that are set will be updated.
+"""
+input _PrismaMigrationPatch {
+  id: String
+  checksum: String
+  finishedAt: Datetime
+  migrationName: String
+  logs: String
+  rolledBackAt: Datetime
+  startedAt: Datetime
+  appliedStepsCount: Int
+}
+
+"""All input for the `updatePrismaMigration` mutation."""
+input UpdatePrismaMigrationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `_PrismaMigration` being updated.
+  """
+  patch: _PrismaMigrationPatch!
+  id: String!
+}
+
+"""The output of our delete `User` mutation."""
+type DeleteUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was deleted by this mutation."""
+  user: User
+  deletedUserNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the `deleteUserByNodeId` mutation."""
+input DeleteUserByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: String!
+}
+
+"""The output of our delete `_PrismaMigration` mutation."""
+type DeletePrismaMigrationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `_PrismaMigration` that was deleted by this mutation."""
+  _prismaMigration: _PrismaMigration
+  deletedPrismaMigrationNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `_PrismaMigration`. May be used by Relay 1."""
+  _prismaMigrationEdge(
+    """The method to use when ordering `_PrismaMigration`."""
+    orderBy: [_PrismaMigrationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): _PrismaMigrationsEdge
+}
+
+"""All input for the `deletePrismaMigrationByNodeId` mutation."""
+input DeletePrismaMigrationByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `_PrismaMigration` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deletePrismaMigration` mutation."""
+input DeletePrismaMigrationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: String!
+}

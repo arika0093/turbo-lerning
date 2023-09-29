@@ -1,0 +1,29 @@
+{
+  "name": "graphql-codegen",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./dist/index.ts",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "graphql-codegen",
+    "dev": "graphql-codegen --watch",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "devDependencies": {
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@nitrogql/cli": "^1.1.0",
+    "@parcel/watcher": "^2.3.0",
+    "config": "workspace:*",
+    "tsconfig": "workspace:*"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "graphql": "^16.8.1",
+    "typescript": "^5.2.2"
+  }
+}

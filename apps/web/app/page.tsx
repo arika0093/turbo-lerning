@@ -1,7 +1,20 @@
-import { prisma } from "database";
+import { useQuery } from 'urql'
+import { graphql } from 'graphql-codegen'
+
+const usersQuery = graphql(`
+  query MyQuery {
+    users(first: 10) {
+      nodes {
+        id
+        name
+        email
+      }
+    }
+  }
+`)
 
 export default async function IndexPage() {
-  const users = await prisma.user.findMany();
+  const [users] = useQuery({query:usersQuery})
 
   return (
     <div>
