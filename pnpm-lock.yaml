@@ -77,18 +77,18 @@ importers:
   packages/database:
     dependencies:
       '@prisma/client':
-        specifier: ^3.10.0
-        version: 3.15.2(prisma@3.15.2)
+        specifier: ^3.15.2
+        version: 3.15.2(prisma@5.3.1)
     devDependencies:
       config:
         specifier: workspace:*
         version: link:../config
       eslint:
-        specifier: ^8.12.0
+        specifier: ^8.50.0
         version: 8.50.0
       prisma:
-        specifier: ^3.10.0
-        version: 3.15.2
+        specifier: ^5.3.1
+        version: 5.3.1
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
@@ -96,13 +96,13 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig
       tsup:
-        specifier: ^5.11.13
+        specifier: ^5.12.9
         version: 5.12.9(typescript@4.9.5)
       tsx:
-        specifier: ^3.7.1
+        specifier: ^3.13.0
         version: 3.13.0
       typescript:
-        specifier: ^4.5.5
+        specifier: ^4.9.5
         version: 4.9.5
 
   packages/tsconfig: {}
@@ -564,7 +564,7 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
-  /@prisma/client@3.15.2(prisma@3.15.2):
+  /@prisma/client@3.15.2(prisma@5.3.1):
     resolution: {integrity: sha512-ErqtwhX12ubPhU4d++30uFY/rPcyvjk+mdifaZO5SeM21zS3t4jQrscy8+6IyB0GIYshl5ldTq6JSBo1d63i8w==}
     engines: {node: '>=12.6'}
     requiresBuild: true
@@ -575,15 +575,15 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
-      prisma: 3.15.2
+      prisma: 5.3.1
     dev: false
 
   /@prisma/engines-version@3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e:
     resolution: {integrity: sha512-e3k2Vd606efd1ZYy2NQKkT4C/pn31nehyLhVug6To/q8JT8FpiMrDy7zmm3KLF0L98NOQQcutaVtAPhzKhzn9w==}
     dev: false
 
-  /@prisma/engines@3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e:
-    resolution: {integrity: sha512-NHlojO1DFTsSi3FtEleL9QWXeSF/UjhCW0fgpi7bumnNZ4wj/eQ+BJJ5n2pgoOliTOGv9nX2qXvmHap7rJMNmg==}
+  /@prisma/engines@5.3.1:
+    resolution: {integrity: sha512-6QkILNyfeeN67BNEPEtkgh3Xo2tm6D7V+UhrkBbRHqKw9CTaz/vvTP/ROwYSP/3JT2MtIutZm/EnhxUiuOPVDA==}
     requiresBuild: true
 
   /@rushstack/eslint-patch@1.5.0:
@@ -2757,13 +2757,13 @@ packages:
     hasBin: true
     dev: true
 
-  /prisma@3.15.2:
-    resolution: {integrity: sha512-nMNSMZvtwrvoEQ/mui8L/aiCLZRCj5t6L3yujKpcDhIPk7garp8tL4nMx2+oYsN0FWBacevJhazfXAbV1kfBzA==}
-    engines: {node: '>=12.6'}
+  /prisma@5.3.1:
+    resolution: {integrity: sha512-Wp2msQIlMPHe+5k5Od6xnsI/WNG7UJGgFUJgqv/ygc7kOECZapcSz/iU4NIEzISs3H1W9sFLjAPbg/gOqqtB7A==}
+    engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
+      '@prisma/engines': 5.3.1
 
   /progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
